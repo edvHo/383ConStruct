@@ -2,7 +2,7 @@
 
 \[Instructions for installing in RStudio]
 
-To download conStruct package, run the following command in the console
+To download the conStruct package, run the following command in the console
 ```
 install.packages("conStruct")
 ```
