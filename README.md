@@ -10,6 +10,7 @@ Running this command will also download dependencies for conStruct
 
 
 \[Instructions for using data to recreate Figure 7 of Black Bears and Poplars study]
+
 The following example uses the example Construct.data file included in the R package:
 ```
 my.run <- conStruct(spatial = TRUE, 
