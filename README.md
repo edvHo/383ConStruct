@@ -30,3 +30,4 @@ geoDist represents the geographic distance matrix.
 
 coords includes the sampling coordinates data.
 
+prefix sets the string prepended to the output files.
