@@ -36,8 +36,8 @@ coords includes the sampling coordinates data.
 
 prefix sets the string prepended to the output files.
 
-make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
 ```
 make.figs = TRUE, 
 save.files = TRUE
 ```
+make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
