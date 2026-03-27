@@ -19,20 +19,21 @@ plant <- read.table("plantmetadata.txt",
                       sep = "\t",          #separate by tab
                       stringsAsFactors = FALSE)
 
-pop <- read.table("populations.structure", 
-                    header = TRUE,       #first row is column names
-                    sep = "\t",          #separate by tab
-                    stringsAsFactors = FALSE)
-
+population.data <- structure2conStruct(infile = "/home/sliu26/homework/conStruct/conStruct sample data/populations.structure",
+                                      onerowperind = FALSE,
+                                      start.loci = 2,
+                                      start.samples = 3,
+                                      missing.datum = 0,
+                                      outfile = "/home/sliu26/homework/conStruct/conStruct sample data")
 #to check 
 head(plant)
-head(pop)
-
+head(population.data)
 
 grillodata <- list(
-  population = pop,
+  population = population.data,
   plantmetadata = plant
 )
+
 ```
 
 
