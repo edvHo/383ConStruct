@@ -27,6 +27,12 @@ pop <- read.table("populations.structure",
 #to check 
 head(plant)
 head(pop)
+
+
+grillodata <- list(
+  population = pop,
+  plantmetadata = plant
+)
 ```
 
 
