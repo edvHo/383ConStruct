@@ -1,17 +1,4 @@
 
-construct.data <- structure2conStruct(infile = "/home/data/Project5/populations.structure",
-                                      onerowperind= FALSE, start.loci = 2,
-                                      start.samples = 3, missing.datum = 0,
-                                      outfile = "~/conStruct_project/structurefileConStructData2.txt")
-
-# using the populations.structure file from Dr.Grillo, I was able to use the structure2conStruct function
-# that comes with the conStruct package and set the parameters to fit Dr. Grillo's dataset
-# onerowperind is set to false as there are two rows per individual, the index of the first column with genotype 
-# data is 2 which is what start.loci refers to. The first rwo of genotype is row 3 which is what start.samples refers to.
-# missing data has a value of 0. I wrote the outfile to my own folder as I could not write it out to the class file.
-
-# This file only contains allele frequency data, so we need to extract the latitude and longitude data from 
-# the plantmetadata.txt file and then run a distance matrix on it. After this we can add all three data types into one file
 # to run in conStruct.With sample data:
 ```
 my.run <- conStruct(spatial = TRUE, 
@@ -47,6 +34,22 @@ grillodata <- list(
   population = population.data,
   plantmetadata = plant
 )
+
+# Update on formatting Dr. Grillo's data
+
+construct.data <- structure2conStruct(infile = "/home/data/Project5/populations.structure",
+                                      onerowperind= FALSE, start.loci = 2,
+                                      start.samples = 3, missing.datum = 0,
+                                      outfile = "~/conStruct_project/structurefileConStructData2.txt")
+
+# using the populations.structure file from Dr.Grillo, I was able to use the structure2conStruct function
+# that comes with the conStruct package and set the parameters to fit Dr. Grillo's dataset
+# onerowperind is set to false as there are two rows per individual, the index of the first column with genotype 
+# data is 2 which is what start.loci refers to. The first rwo of genotype is row 3 which is what start.samples refers to.
+# missing data has a value of 0. I wrote the outfile to my own folder as I could not write it out to the class file.
+
+# This file only contains allele frequency data, so we need to extract the latitude and longitude data from 
+# the plantmetadata.txt file and then run a distance matrix on it. After this we can add all three data types into one file
 
 ```
 
