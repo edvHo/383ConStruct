@@ -1,0 +1,32 @@
+With sample data:
+```
+my.run <- conStruct(spatial = TRUE, 
+                    K = 3, 
+                    freqs = conStruct.data$allele.frequencies, 
+                    geoDist = conStruct.data$geoDist,     #change with test data later
+                    coords = conStruct.data$coords,       #change with test data later
+                    prefix = "spK3", 
+                    n.chains = 1, 
+                    n.iter = 1000, 
+                    make.figs = TRUE, 
+                    save.files = TRUE)
+```
+Currently: Attempting to format dr. Grillo's dataset, and figuring out how to visualize data
+```
+setwd("/home/data/Project5")
+plant <- read.table("plantmetadata.txt", 
+                      header = TRUE,       #first row is column names
+                      sep = "\t",          #separate by tab
+                      stringsAsFactors = FALSE)
+
+pop <- read.table("populations.structure", 
+                    header = TRUE,       #first row is column names
+                    sep = "\t",          #separate by tab
+                    stringsAsFactors = FALSE)
+
+#to check 
+head(plant)
+head(pop)
+```
+
+
