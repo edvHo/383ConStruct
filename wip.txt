@@ -53,4 +53,14 @@ construct.data <- structure2conStruct(infile = "/home/data/Project5/populations.
 
 ```
 
+Get dplyr and separate lon and lat into its own:
+'''
+install.packages("dplyr")
+library(dplyr)
+sampling.coords <- plant %>% 
+  select(lat, lon)
+
+'''
+
+
 
