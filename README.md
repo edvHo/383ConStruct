@@ -8,6 +8,10 @@ install.packages("conStruct")
 ```
 Running this command will also download dependencies for conStruct
 
+Load the package after installation:
+```
+library(conStruct)
+```
 
 \[Instructions for using data to recreate Figure 7 of Black Bears and Poplars study]
 
