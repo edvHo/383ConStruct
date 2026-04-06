@@ -43,3 +43,6 @@ prefix sets the string prepended to the output files.
 n.iter represents the number of MCMC iterations
 
 make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
+
+## Working with new Dataset
+
