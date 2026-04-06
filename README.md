@@ -22,7 +22,11 @@ my.run <- conStruct(spatial = TRUE,
                     freqs = conStruct.data$allele.frequencies,
                     geoDist = conStruct.data$geoDist, 
                     coords = conStruct.data$coords,
-                    prefix = "spK3")
+                    prefix = "spK3",
+                    n.chains = 1,
+                    n.iter = 1000, 
+                    make.figs = TRUE, 
+                    save.files = TRUE)
 ```
 Setting spatial to true outputs a spatial model, false for a non-spatial model.
 
@@ -36,8 +40,6 @@ coords includes the sampling coordinates data.
 
 prefix sets the string prepended to the output files.
 
-```
-make.figs = TRUE, 
-save.files = TRUE
-```
+n.iter represents the number of MCMC iterations
+
 make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
