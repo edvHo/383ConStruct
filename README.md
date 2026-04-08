@@ -101,9 +101,4 @@ sampling.coords <- plant %>%
 
 head(sampling.coords)
 ```
-6. Create Geographic Distance Matrix
-```
 
-```
-7. 
-   
