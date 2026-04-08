@@ -45,6 +45,8 @@ n.iter represents the number of MCMC iterations
 make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
 
 ## Working with new Dataset
+NOTE: The following section is project specific, filepaths may differ
+
 1. Working Directory setup and Loading Metadata
 ```
 setwd("/home/data/Project5")
