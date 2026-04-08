@@ -103,7 +103,7 @@ head(sampling.coords)
 ```
 6. Create Geographic Distance Matrix
 ```
-geoDist <- as.matrix(dist(sampling.coords))
+
 ```
 7. 
    
