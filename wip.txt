@@ -57,10 +57,26 @@ Get dplyr and separate lon and lat into its own:
 '''
 install.packages("dplyr")
 library(dplyr)
-sampling.coords <- plant %>% 
-  select(lat, lon)
+sampling.coords <- plant %>%
+  select(lon, lat)
+
+#have been running into errors with missing data. Use complete.cases to remove NA values
+a <- sampling.coords[complete.cases(sampling.coords),]
+b <- as.matrix(a)
+
+library(geosphere)
+install.packages("geosphere")
+
+geoDist <- distm(b)
+grillodata <- list(
+  population = population.data,
+  coords = b,
+  distance = geoDist
+)
 
 '''
+
+
 
 
 
