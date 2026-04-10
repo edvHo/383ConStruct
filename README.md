@@ -104,6 +104,12 @@ make.admix.pie.plot(admix.proportions = admix.props,
 ```
 <img width="537" height="304" alt="Screenshot 2026-04-10 at 2 13 03 PM" src="https://github.com/user-attachments/assets/c1d92f9d-fb0a-44c6-ade6-a46c9523cebe" />
 
+One issue with running a conStruct analysis is getting a number of error messages, such as:
+<img width="719" height="309" alt="Screenshot 2026-04-10 at 3 14 46 PM" src="https://github.com/user-attachments/assets/3db0283a-39b4-4364-aaeb-995f078104fe" />
+However, these did not seem to impact the output data, but one way to check is by looking at the trace plots that are output from the make.figs function. If the run is successful, the trace plot would look like a "fuzzy caterpillar" as shown:
+<img width="666" height="265" alt="Screenshot 2026-04-10 at 3 13 16 PM" src="https://github.com/user-attachments/assets/4c3d4193-2234-4ff6-911e-2e36f273b4f1" />
+
+
 
 ## Working with new Dataset
 NOTE: The following section is project specific, filepaths may differ
