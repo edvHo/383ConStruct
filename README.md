@@ -15,18 +15,27 @@ library(conStruct)
 
 \[Instructions for using data to recreate Figure 7 of Black Bears and Poplars study]
 
-The following example uses the example Construct.data file included in the R package:
+conStruct expects three inputs: a matrix of allele frequencies, a matrix of geographical coordinates, and a distance matrix.
+The data from the paper used in the original analysis (https://datadryad.org/dataset/doi:10.5061/dryad.5qj7h09) contains a file called 
+"bear.dataset.Robj" which contains the allele frequencies and the coordinates.
 ```
-my.run <- conStruct(spatial = TRUE, 
-                    K = 3, 
-                    freqs = conStruct.data$allele.frequencies,
-                    geoDist = conStruct.data$geoDist, 
-                    coords = conStruct.data$coords,
-                    prefix = "spK3",
-                    n.chains = 1,
-                    n.iter = 1000, 
-                    make.figs = TRUE, 
-                    save.files = TRUE)
+load("bear.dataset.Robj")
+sample.freqs <- bear.dataset$sample.freqs
+sample.coords <- bear.dataset$sample.coords
+```
+Now, a distance matrix needs to be calculated. The geosphere R package can be used to do this.
+```
+install.packages("geosphere")
+library("geosphere")
+geo.dist.matrix <- distm(sample.coords, fun=distGeo)
+```
+Now that all inputs are ready, a conStruct analysis can be run.
+```
+mr.run <- conStruct(spatial=TRUE, K = 3, freqs = sample.freqs, 
+                    geoDist = geo.dist.matrix, 
+                    coords = sample.coords, 
+                    prefix = "bear_k3", n.chains=1, 
+                    n.iter=1000, make.figs=TRUE, save.files=TRUE)
 ```
 Setting spatial to true outputs a spatial model, false for a non-spatial model.
 
@@ -42,7 +51,59 @@ prefix sets the string prepended to the output files.
 
 n.iter represents the number of MCMC iterations
 
-make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be usefull when running many independant analyses. 
+make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be useful when running many independent analyses. 
+
+Although the make.figs function creates the figures; it is important to be able to create them separately. First, load the output data
+```
+load("bear_k3_data.block.Robj")
+load("bear_k3_conStruct.results.Robj")
+```
+Now, different plots can be made. First, the structure plot
+```
+admix.props <- conStruct.results$chain_1$MAP$admix.proportions
+make.structure.plot(admix.proportions = admix.props)
+```
+<img width="645" height="321" alt="Screenshot 2026-04-10 at 2 12 12 PM" src="https://github.com/user-attachments/assets/742a323f-d756-4705-81a1-1d65970232f4" />
+
+You can also order these structure plots by membership and change how the layers are stacked
+```
+# ordering plotted samples by membership
+make.structure.plot(admix.proportions = admix.props,
+                    sort.by = 1)
+# re-order the stacking of the layers
+make.structure.plot(admix.proportions = admix.props,
+                    layer.order = c(2,1,3),
+                    sort.by = 2)
+```
+<img width="548" height="303" alt="Screenshot 2026-04-10 at 2 12 43 PM" src="https://github.com/user-attachments/assets/2d74a331-0c39-44ad-9c4f-0c24435c56ca" />
+<img width="641" height="316" alt="Screenshot 2026-04-10 at 2 12 26 PM" src="https://github.com/user-attachments/assets/940c9c35-8e34-43ad-aa10-b421ef560da8" />
+
+Admixture pie plots can also be constructed with parameters to change pie chart size as well
+```
+#pie admixture pie plot
+make.admix.pie.plot(admix.proportions = admix.props,
+                    coords = sample.coords)
+make.admix.pie.plot(admix.proportions = admix.props,
+                    coords = sample.coords,
+                    radii = 4)
+```
+<img width="545" height="323" alt="Screenshot 2026-04-10 at 2 12 55 PM" src="https://github.com/user-attachments/assets/833b13aa-491a-437e-954f-6c9b1fe905ad" />
+
+You can then layer these pie charts over a map. This step requires the "maps" R package 
+```
+install.packages("maps")
+library(maps)
+# Construct the map
+maps::map(xlim = range(sample.coords[,1]) + c(-5,5), 
+          ylim = range(sample.coords[,2]) + c(-2,2), 
+          col="gray")
+# Place the pie plot over the map
+make.admix.pie.plot(admix.proportions = admix.props,
+                    coords = sample.coords,
+                    add = TRUE)
+```
+<img width="537" height="304" alt="Screenshot 2026-04-10 at 2 13 03 PM" src="https://github.com/user-attachments/assets/c1d92f9d-fb0a-44c6-ade6-a46c9523cebe" />
+
 
 ## Working with new Dataset
 NOTE: The following section is project specific, filepaths may differ
