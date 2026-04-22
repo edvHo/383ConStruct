@@ -12,6 +12,7 @@ Load the package after installation:
 library(conStruct)
 ```
 
+## Constructing figures
 The following instructions are for using data to recreate Figure 7 of Black Bears and Poplars study
 
 conStruct expects three inputs: a matrix of allele frequencies, a matrix of geographical coordinates, and a distance matrix.
