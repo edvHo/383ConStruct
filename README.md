@@ -127,18 +127,41 @@ plant <- read.table(
 
 head(plant)
 ```
-2. Convert Structure file to conStruct format
+2. Process Data and Convert Structure file to conStruct format
 ```
+install.packages("dplyr")
+library(dplyr)
+
+#find sample id of NA values and remove the loci
+plant.na <- plant %>% filter(if_any(everything(), is.na))
+na.sampleid <- plant.na %>% pull(sample_id)
+na.sampleid
+
+#note that missing.datum was changed to -1
+#the sample id's that showed to have missing coordinates in the plantmetadata.txt file were manually deleted
 population.data <- structure2conStruct(
   infile = "/home/data/Project5/populations.structure",
   onerowperind = FALSE,
   start.loci = 2,
   start.samples = 3,
-  missing.datum = 0,
+  missing.datum = -1,
   outfile = "~/conStruct_project/structurefileConStructData.txt"
 )
 
 head(population.data)
+
+plant.no.na <- sampling.coords[complete.cases(sampling.coords),]
+m.plant <- as.matrix(a)
+
+```
+3. Create Sampling Coordinates 
+```
+sampling.coords <- plant %>% 
+  select(lat, lon)
+
+head(sampling.coords)
+
+
 ```
 3. Combine data to a list
 ```
@@ -160,14 +183,4 @@ construct.data <- structure2conStruct(
 ```
 
 
-5. Extract coordinates
-```
-install.packages("dplyr")
-library(dplyr)
-
-sampling.coords <- plant %>% 
-  select(lat, lon)
-
-head(sampling.coords)
-```
 
