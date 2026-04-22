@@ -1,6 +1,5 @@
 # 383ConStruct
 
-\[Instructions for installing in RStudio]
 
 To download the conStruct package, run the following command in the console
 ```
@@ -13,7 +12,7 @@ Load the package after installation:
 library(conStruct)
 ```
 
-\[Instructions for using data to recreate Figure 7 of Black Bears and Poplars study]
+The following instructions are for using data to recreate Figure 7 of Black Bears and Poplars study
 
 conStruct expects three inputs: a matrix of allele frequencies, a matrix of geographical coordinates, and a distance matrix.
 The data from the paper used in the original analysis (https://datadryad.org/dataset/doi:10.5061/dryad.5qj7h09) contains a file called 
