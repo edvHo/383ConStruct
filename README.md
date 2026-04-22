@@ -107,8 +107,64 @@ make.admix.pie.plot(admix.proportions = admix.props,
 One issue with running a conStruct analysis is getting a number of error messages, such as:
 <img width="719" height="309" alt="Screenshot 2026-04-10 at 3 14 46 PM" src="https://github.com/user-attachments/assets/3db0283a-39b4-4364-aaeb-995f078104fe" />
 However, these did not seem to impact the output data, but one way to check is by looking at the trace plots that are output from the make.figs function. If the run is successful, the trace plot would look like a "fuzzy caterpillar" as shown:
+
 <img width="666" height="265" alt="Screenshot 2026-04-10 at 3 13 16 PM" src="https://github.com/user-attachments/assets/4c3d4193-2234-4ff6-911e-2e36f273b4f1" />
 
+## Comparing Models
+After running a conStruct analysis, it is best to find which K value, or the number of layers, best fits your data. This can be done by using conStruct's integrated cross-validation command:
+```
+my.xvals <- x.validation(train.prop = 0.9,
+                         n.reps = 8,
+                         K = 1:3,
+                         freqs = sample.freqs,
+                         data.partitions = NULL,
+                         geoDist = geo.dist.matrix,
+                         coords = sample.coords,
+                         prefix = "example",
+                         n.iter = 1000,
+                         make.figs = FALSE,
+                         save.files = FALSE,
+                         parallel = FALSE,
+                         n.nodes = NULL)
+```
+This tool runs 8 cross-validation analyses, from K=1 to K=3 by randomly samples 90% of the loci in the dataset at each of these values. This results in 24 individual conStruct analyses being run, which can lead to a long runtime. It is best to leave make.figs=FALSE as leaving it on can accumulate a bunch of figures. The command to plot this data is:
+```
+sp.results <- as.matrix(
+  read.table("example_sp_xval_results.txt",
+             header = TRUE,
+             stringsAsFactors = FALSE)
+)
+nsp.results <- as.matrix(
+  read.table("example_nsp_xval_results.txt",
+             header = TRUE,
+             stringsAsFactors = FALSE)
+)
+
+sp.CIs <- apply(sp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
+nsp.CIs <- apply(nsp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
+
+par(mfrow=c(1,2))
+plot(rowMeans(sp.results),
+     pch=19,col="blue",
+     ylab="predictive accuracy",xlab="values of K",
+     ylim=range(sp.results,nsp.results),
+     main="cross-validation results")
+points(rowMeans(nsp.results),col="green",pch=19)
+
+plot(rowMeans(sp.results),
+     pch=19,col="blue",
+     ylab="predictive accuracy",xlab="values of K",
+     ylim=range(sp.CIs),
+     main="spatial cross-validation results")
+segments(x0 = 1:nrow(sp.results),
+         y0 = sp.CIs[1,],
+         x1 = 1:nrow(sp.results),
+         y1 = sp.CIs[2,],
+         col = "blue",lwd=2)
+```
+Running these commands here results in a figure that helps you determine which K value is best, by showing you which layer has the best predictive accuracy. This looks like:
+
+<img width="696" height="288" alt="Screenshot 2026-04-22 at 4 02 32 PM" src="https://github.com/user-attachments/assets/e48d72b8-9ada-4fdb-8c1e-745e949af921" />
 
 
 ## Working with new Dataset
