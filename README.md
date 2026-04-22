@@ -159,27 +159,49 @@ m.plant <- as.matrix(a)
 sampling.coords <- plant %>% 
   select(lat, lon)
 
-head(sampling.coords)
-
+plant.no.na <- sampling.coords[complete.cases(sampling.coords),]
+m.plant <- as.matrix(a)
+head(m.plant)
 
 ```
-3. Combine data to a list
+4. Create Distance Matrix
+```
+install.packages("geosphere")
+library(geosphere)
+
+geosphere::distGeo
+?distGeo
+geoDist <- distm(b)
+head(geoDist)
+
+```
+5. Combine data to a list
 ```
 grillodata <- list(
   population = population.data,
-  plantmetadata = plant
+  coords = m.plant,
+  distance = geoDist
 )
+
+#view each part here
+grillodata$population
+grillodata$coords 
+grillodata$distance
+
 ```
-4. Update for new Dataset
+5. Run conStruct
 ```
-construct.data <- structure2conStruct(
-  infile = "/home/data/Project5/populations.structure",
-  onerowperind = FALSE,
-  start.loci = 2,
-  start.samples = 3,
-  missing.datum = 0,
-  outfile = "~/conStruct_project/structurefileConStructData2.txt"
-)
+#run conStruct
+my.run <- conStruct(spatial = TRUE, 
+                    K = 2, 
+                    freqs = grillodata$population, 
+                    geoDist = grillodata$distance,  
+                    coords = grillodata$coords, 
+                    prefix = "spK2", 
+                    n.chains = 1, 
+                    n.iter = 500, 
+                    make.figs = TRUE, 
+                    save.files = TRUE)
 ```
 
 
