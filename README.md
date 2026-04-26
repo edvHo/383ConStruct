@@ -10,7 +10,6 @@ Running this command will also download dependencies for conStruct
 Load the package after installation:
 ```
 library(conStruct)
-
 ```
 ConStruct comes with a sample dataset included with the package. To load, simply enter:
 ```
