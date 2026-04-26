@@ -7,6 +7,21 @@ install.packages("conStruct")
 ```
 Running this command will also download dependencies for conStruct
 
+ConStruct includes multiple vignettes, which act as the user manual and can be accessed by:
+```
+# formatting data
+vignette(topic="format-data",package="conStruct")
+
+# how to run a conStruct analysis
+vignette(topic="run-conStruct",package="conStruct")
+
+# how to visualize the output of a conStruct model
+vignette(topic="visualize-results",package="conStruct")
+
+# how to compare and select between different conStruct models
+vignette(topic="model-comparison",package="conStruct")
+```
+
 Load the package after installation:
 ```
 library(conStruct)
