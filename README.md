@@ -10,32 +10,25 @@ Running this command will also download dependencies for conStruct
 Load the package after installation:
 ```
 library(conStruct)
+
+```
+ConStruct comes with a sample dataset included with the package. To load, simply enter:
+```
+data(conStruct.data)
 ```
 
-## Constructing figures
-The following instructions are for using data to recreate Figure 7 of Black Bears and Poplars study
+This includes the three data types conStruct expects: allele frequency data, a geographic distance matrix, and geographic sampling coordinates.
 
-conStruct expects three inputs: a matrix of allele frequencies, a matrix of geographical coordinates, and a distance matrix.
-The data from the paper used in the original analysis (https://datadryad.org/dataset/doi:10.5061/dryad.5qj7h09) contains a file called 
-"bear.dataset.Robj" which contains the allele frequencies and the coordinates.
-```
-load("bear.dataset.Robj")
-sample.freqs <- bear.dataset$sample.freqs
-sample.coords <- bear.dataset$sample.coords
-```
-Now, a distance matrix needs to be calculated. The geosphere R package can be used to do this.
-```
-install.packages("geosphere")
-library("geosphere")
-geo.dist.matrix <- distm(sample.coords, fun=distGeo)
-```
+## Running a conStruct analysis and constructing figures
+
 Now that all inputs are ready, a conStruct analysis can be run.
 ```
-mr.run <- conStruct(spatial=TRUE, K = 3, freqs = sample.freqs, 
-                    geoDist = geo.dist.matrix, 
-                    coords = sample.coords, 
-                    prefix = "bear_k3", n.chains=1, 
-                    n.iter=1000, make.figs=TRUE, save.files=TRUE)
+my.run <- conStruct(spatial = TRUE, 
+                    K = 3, 
+                    freqs = conStruct.data$allele.frequencies,
+                    geoDist = conStruct.data$geoDist, 
+                    coords = conStruct.data$coords,
+                    prefix = "spK3")
 ```
 Setting spatial to true outputs a spatial model, false for a non-spatial model.
 
@@ -55,10 +48,10 @@ make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can b
 
 Although the make.figs function creates the figures; it is important to be able to create them separately. First, load the output data
 ```
-load("bear_k3_data.block.Robj")
-load("bear_k3_conStruct.results.Robj")
+load("spk3_data.block.Robj")
+load("spk3_conStruct.results.Robj")
 ```
-Now, different plots can be made. First, the structure plot
+Now, different plots can be made. A quick note: the figures created using the sample data will not look the same as the figures shown, which were made using the full dataset.
 ```
 admix.props <- conStruct.results$chain_1$MAP$admix.proportions
 make.structure.plot(admix.proportions = admix.props)
@@ -106,6 +99,7 @@ make.admix.pie.plot(admix.proportions = admix.props,
 
 One issue with running a conStruct analysis is getting a number of error messages, such as:
 <img width="719" height="309" alt="Screenshot 2026-04-10 at 3 14 46 PM" src="https://github.com/user-attachments/assets/3db0283a-39b4-4364-aaeb-995f078104fe" />
+
 However, these did not seem to impact the output data, but one way to check is by looking at the trace plots that are output from the make.figs function. If the run is successful, the trace plot would look like a "fuzzy caterpillar" as shown:
 
 <img width="666" height="265" alt="Screenshot 2026-04-10 at 3 13 16 PM" src="https://github.com/user-attachments/assets/4c3d4193-2234-4ff6-911e-2e36f273b4f1" />
@@ -116,10 +110,10 @@ After running a conStruct analysis, it is best to find which K value, or the num
 my.xvals <- x.validation(train.prop = 0.9,
                          n.reps = 8,
                          K = 1:3,
-                         freqs = sample.freqs,
+                         freqs = conStruct.data$allele.frequencies,
                          data.partitions = NULL,
-                         geoDist = geo.dist.matrix,
-                         coords = sample.coords,
+                         geoDist = conStruct.data$geoDist,
+                         coords = conStruct.data$coords,
                          prefix = "example",
                          n.iter = 1000,
                          make.figs = FALSE,
@@ -127,7 +121,7 @@ my.xvals <- x.validation(train.prop = 0.9,
                          parallel = FALSE,
                          n.nodes = NULL)
 ```
-This tool runs 8 cross-validation analyses, from K=1 to K=3 by randomly samples 90% of the loci in the dataset at each of these values. This results in 24 individual conStruct analyses being run, which can lead to a long runtime. It is best to leave make.figs=FALSE as leaving it on can accumulate a bunch of figures. The command to plot this data is:
+This tool runs 8 cross-validation analyses, from K=1 to K=3, by randomly samples 90% of the loci in the dataset at each of these values. This results in 24 individual conStruct analyses being run, which can lead to a long runtime. It is best to leave make.figs=FALSE as leaving it on can accumulate a bunch of figures. The command to plot this data is:
 ```
 sp.results <- as.matrix(
   read.table("example_sp_xval_results.txt",
@@ -168,7 +162,7 @@ Running these commands here results in a figure that helps you determine which K
 
 
 ## Working with new Dataset
-NOTE: The following section is project specific, filepaths may differ
+NOTE: The following section is project-specific, filepaths may differ
 
 1. Working Directory setup and Loading Metadata
 ```
