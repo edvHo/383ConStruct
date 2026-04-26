@@ -60,7 +60,7 @@ n.iter represents the number of MCMC iterations
 
 make.figs = TRUE and save.files = TRUE are already defaulted to "TRUE" but can be useful when running many independent analyses. 
 
-Although the make.figs function creates the figures; it is important to be able to create them separately. First, load the output data
+Although the make.figs function creates the figures; it is important to be able to create them separately. ConStruct comes with integrated functions for creating these figures. First, load the output data.
 ```
 load("spk3_data.block.Robj")
 load("spk3_conStruct.results.Robj")
