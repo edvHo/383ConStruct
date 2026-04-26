@@ -7,7 +7,7 @@ install.packages("conStruct")
 ```
 Running this command will also download dependencies for conStruct
 
-ConStruct includes multiple vignettes, which act as the user manual and can be accessed by:
+ConStruct includes multiple vignettes, which act as the user manual. These include more in-depth explanations as well as other analyses available for use. They can be accessed by running:
 ```
 # formatting data
 vignette(topic="format-data",package="conStruct")
