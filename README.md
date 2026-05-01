@@ -296,6 +296,7 @@ make.admix.pie.plot(admix.proportions = admix.props,
 ```
 <img width="579" height="484" alt="Screenshot 2026-05-01 at 3 34 20 PM" src="https://github.com/user-attachments/assets/5ff33d22-da03-4c24-9122-5ab9d08630c6" />
 
+
 7. Cross Validation
 ```
 my.xvals <- x.validation(
@@ -306,8 +307,9 @@ my.xvals <- x.validation(
   data.partitions = NULL,
   geoDist = geoDist,
   coords = m.plant,
-  prefix = "k3_5",
+  prefix = "k3_5", #this changes the name of the output files
   n.iter = 1000,
+  #make these false to saves time
   make.figs = FALSE,
   save.files = FALSE,
   parallel = FALSE
