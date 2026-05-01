@@ -192,6 +192,7 @@ plant <- read.table(
 head(plant)
 ```
 2. Process Data and Convert Structure file to conStruct format
+It is important to process the data so that ConStruct can read it. We removed all NA values in our coordinates. Make sure to also delete the corresponding allele frequency loci as well, 
 ```
 install.packages("dplyr")
 library(dplyr)
@@ -208,7 +209,7 @@ population.data <- structure2conStruct(
   onerowperind = FALSE,
   start.loci = 2,
   start.samples = 3,
-  missing.datum = -1,
+  missing.datum = -1, #adjust this parameter based on what number the missing data is
   outfile = "~/conStruct_project/structurefileConStructData.txt"
 )
 
@@ -234,9 +235,8 @@ install.packages("geosphere")
 library(geosphere)
 
 geosphere::distGeo
-?distGeo
 geoDist <- distm(b)
-head(geoDist)
+head(geoDist) #to preview the dataset
 
 ```
 5. Combine data to a list
@@ -257,16 +257,67 @@ grillodata$distance
 ```
 #run conStruct
 my.run <- conStruct(spatial = TRUE, 
-                    K = 2, 
+                    K = 3, #changes the amount of layers
                     freqs = grillodata$population, 
                     geoDist = grillodata$distance,  
                     coords = grillodata$coords, 
-                    prefix = "spK2", 
+                    prefix = "spK3", #changes the name of the files created
                     n.chains = 1, 
-                    n.iter = 500, 
+                    n.iter = 1000, #changes number of iterations
                     make.figs = TRUE, 
                     save.files = TRUE)
 ```
+6. Plot
+```
+load("spK3_data.block.Robj")
+load("spK3_conStruct.results.Robj")
+#create admixture plot
+admix.props <- conStruct.results$chain_1$MAP$admix.proportions
+make.structure.plot(admix.proportions = admix.props)
+
+make.all.the.plots(conStruct.results = conStruct.results,
+                    data.block = data.block,
+                    prefix = "example",
+                    layer.colors = NULL)
+```
+<img width="800" height="1200" alt="image" src="https://github.com/user-attachments/assets/944afa2b-81cc-4826-a52a-6bb3665084e1" />
+
+```
+install.packages("maps")
+library(maps)
+
+maps::map(xlim = range(sample.coords[,1]) + c(-5,5), 
+          ylim = range(sample.coords[,2]) + c(-2,2), 
+          col="blue")
+make.admix.pie.plot(admix.proportions = admix.props,
+                    coords = m.plant, #make sure to adjust this to whatever your coordinates are set to
+                    add = TRUE)
+
+```
+<img width="579" height="484" alt="Screenshot 2026-05-01 at 3 34 20 PM" src="https://github.com/user-attachments/assets/5ff33d22-da03-4c24-9122-5ab9d08630c6" />
+
+7. Cross Validation
+```
+my.xvals <- x.validation(
+  train.prop = 0.5, #make sure to adjust this value based on the amount of loci you have
+  n.reps = 2,
+  K = 1:3, #change this to which layers you want to test
+  freqs = population.data,
+  data.partitions = NULL,
+  geoDist = geoDist,
+  coords = m.plant,
+  prefix = "k3_5",
+  n.iter = 1000,
+  make.figs = FALSE,
+  save.files = FALSE,
+  parallel = FALSE
+)
+```
+<img width="455" height="450" alt="Screenshot 2026-05-01 at 3 31 47 PM" src="https://github.com/user-attachments/assets/02777bd7-e42e-49e2-8181-5a2eebefd401" />
+
+
+
+
 
 
 
