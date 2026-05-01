@@ -307,7 +307,7 @@ my.xvals <- x.validation(
   data.partitions = NULL,
   geoDist = geoDist,
   coords = m.plant,
-  prefix = "k3_5", #this changes the name of the output files
+  prefix = "k1_3", #this changes the name of the output files
   n.iter = 1000,
   #make these false to saves time
   make.figs = FALSE,
